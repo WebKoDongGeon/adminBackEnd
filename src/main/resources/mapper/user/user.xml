@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kodg.kodgProject1.user.UserMapper">
+
+    <select id="findUser" parameterType="String" resultType="com.kodg.kodgProject1.user.userDto.FindUserDto">
+        SELECT user_no
+            , user_id
+            , user_pw
+            , user_name
+            , permission
+        FROM users
+        WHERE 1=1
+        AND user_id = #{userName}
+    </select>
+
+    <insert id="saveToken" parameterType="com.kodg.kodgProject1.user.userDto.RefreshDto">
+        INSERT INTO refresh_auth(
+            user_name
+            , refresh
+            , expiration
+        )VALUES (
+            #{userName}
+            , #{refresh}
+            , #{expiration}
+        )
+    </insert>
+    
+    <delete id="deleteRefresh" parameterType="String">
+        DELETE FROM refresh_auth
+        WHERE refresh = #{refresh}
+    </delete>
+
+</mapper>
