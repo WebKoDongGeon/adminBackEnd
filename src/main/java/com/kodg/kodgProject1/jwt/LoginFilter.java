@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -78,7 +79,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //응답 설정
         response.setHeader("access", access);
         response.addCookie(createCookie("refresh", refresh));
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         response.setStatus(HttpStatus.OK.value());
+
+        PrintWriter writer = response.getWriter();
+        writer.println(access+"&");
+        writer.println(username+"&");
+        writer.println(permission);
 
     }
 

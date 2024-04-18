@@ -25,6 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        System.out.println("요청마다 오냐고~ ");
         // 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("access");
 
@@ -39,6 +40,8 @@ public class JwtFilter extends OncePerRequestFilter {
         // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
         try {
             jwtUtil.isExpired(accessToken);
+            PrintWriter writer = response.getWriter();
+            writer.println("토큰만료");
         } catch (ExpiredJwtException e) {
 
             //response body
